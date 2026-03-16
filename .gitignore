@@ -1,0 +1,55 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/wallet_go
+
+# Test binary
+*.test
+
+# Output
+*.out
+/dist
+
+# Go workspace
+go.work
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+config.env
+
+# Local database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+vendor/
+
+# Debug
+__debug_bin
+debug
+
+# Coverage
+*.cover
+coverage.out
+coverage.html
+
+# Air (live reload)
+tmp/
