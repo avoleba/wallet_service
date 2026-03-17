@@ -44,3 +44,7 @@ REST API для операций с кошельком: пополнение, с
 ## Запуск
 
 docker compose up --build
+
+## Запуск тестов
+
+go test ./internal/...

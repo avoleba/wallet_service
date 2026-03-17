@@ -10,17 +10,24 @@ import (
 )
 
 var (
-	ErrWalletNotFound   = errors.New("wallet not found")
+	ErrWalletNotFound    = errors.New("wallet not found")
 	ErrInsufficientFunds = errors.New("insufficient funds for withdrawal")
 	ErrInvalidAmount     = errors.New("amount must be positive")
 	ErrInvalidOperation  = errors.New("operationType must be DEPOSIT or WITHDRAW")
 )
 
-type WalletService struct {
-	repo *repository.WalletRepository
+// WalletRepository defines repository methods used by WalletService (for testing with mocks).
+type WalletRepository interface {
+	GetByID(ctx context.Context, id uuid.UUID) (*model.Wallet, error)
+	DepositOrCreate(ctx context.Context, id uuid.UUID, amount int64) (*model.Wallet, error)
+	Withdraw(ctx context.Context, id uuid.UUID, amount int64) (*model.Wallet, error)
 }
 
-func NewWalletService(repo *repository.WalletRepository) *WalletService {
+type WalletService struct {
+	repo WalletRepository
+}
+
+func NewWalletService(repo WalletRepository) *WalletService {
 	return &WalletService{repo: repo}
 }
 

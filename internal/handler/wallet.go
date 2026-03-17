@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -11,11 +12,17 @@ import (
 	"github.com/google/uuid"
 )
 
-type WalletHandler struct {
-	svc *service.WalletService
+// WalletServicer is the service interface used by the handler (for testing with mocks).
+type WalletServicer interface {
+	GetBalance(ctx context.Context, walletID uuid.UUID) (*model.Wallet, error)
+	ExecuteOperation(ctx context.Context, req model.WalletOperationRequest) (*model.WalletOperationResponse, error)
 }
 
-func NewWalletHandler(svc *service.WalletService) *WalletHandler {
+type WalletHandler struct {
+	svc WalletServicer
+}
+
+func NewWalletHandler(svc WalletServicer) *WalletHandler {
 	return &WalletHandler{svc: svc}
 }
 
