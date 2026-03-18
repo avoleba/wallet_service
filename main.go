@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"database/sql"
 	"log"
 	"net/http"
@@ -36,13 +35,8 @@ func main() {
 	db.SetMaxIdleConns(cfg.DBMaxIdle)
 
 	walletRepo := repository.NewWalletRepository(db)
-	if err := walletRepo.Migrate(context.Background()); err != nil {
-		log.Fatalf("migrate: %v", err)
-	}
-
 	walletSvc := service.NewWalletService(walletRepo)
 	walletHandler := handler.NewWalletHandler(walletSvc)
-
 	router := handler.NewRouter(walletHandler)
 
 	srv := &http.Server{

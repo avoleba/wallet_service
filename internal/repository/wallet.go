@@ -112,15 +112,3 @@ func (r *WalletRepository) exists(ctx context.Context, id uuid.UUID) (bool, erro
 	}
 	return true, nil
 }
-
-func (r *WalletRepository) Migrate(ctx context.Context) error {
-	_, err := r.db.ExecContext(ctx, `
-		CREATE TABLE IF NOT EXISTS wallets (
-			id UUID PRIMARY KEY,
-			balance BIGINT NOT NULL DEFAULT 0,
-			created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-		)
-	`)
-	return err
-}

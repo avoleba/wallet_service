@@ -179,28 +179,6 @@ func TestWalletRepository_Withdraw(t *testing.T) {
 	})
 }
 
-func TestWalletRepository_Migrate(t *testing.T) {
-	db, mock, err := sqlmock.New()
-	if err != nil {
-		t.Fatalf("sqlmock.New: %v", err)
-	}
-	defer db.Close()
-
-	ctx := context.Background()
-	repo := NewWalletRepository(db)
-
-	mock.ExpectExec(`CREATE TABLE IF NOT EXISTS wallets`).
-		WillReturnResult(sqlmock.NewResult(0, 0))
-
-	err = repo.Migrate(ctx)
-	if err != nil {
-		t.Fatalf("Migrate: %v", err)
-	}
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("expectations: %v", err)
-	}
-}
-
 // Ensure *WalletRepository implements WalletRepository interface used by service
 var _ interface {
 	GetByID(context.Context, uuid.UUID) (*model.Wallet, error)
